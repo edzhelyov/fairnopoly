@@ -54,7 +54,8 @@ gem 'devise' # authentication
 gem 'inherited_resources' # dry controllers
 gem "pundit" # authorization
 
-
+# Settings cache
+gem "rails-settings-cached", "0.2.4" # for 3.x
 
 # Deploy with Capistrano
 gem 'capistrano'
@@ -66,9 +67,6 @@ gem 'faker'
 
 #Rails Adminrails
 gem 'rails_admin'
-
-# Integrated gems
-gem 'tinycms', :path => "gems/tinycms"
 
 # Gems used only for assets and not required
 # in production environments by default.
