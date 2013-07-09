@@ -100,10 +100,22 @@ class MassUpload
   end
 
   def missing_bank_details_errors(current_user)
-    if self.errors[:file].grep(/Seller bank/).any?
+    if self.errors[:file].grep(/Seller bank/).any? && self.errors[:file].grep(/Seller paypal/).any?
       self.errors.clear
-
-      errors.add(:file, I18n.t('mass_upload.errors.missing_bank_details', :link => Rails.application.routes.url_helpers.edit_user_registration_path(current_user)))
+      errors.add(:file, I18n.t('mass_upload.errors.missing_payment_details',
+        # bugbug Warum öffnet der Ankerlink '#profile_step' die Zahlungsinformationen und nicht '#payment_information_step'
+        :link => Rails.application.routes.url_helpers.edit_user_registration_path(current_user) + '#profile_step',
+        missing_payment: "PayPal- und Bankkonto"))
+    elsif self.errors[:file].grep(/Seller bank/).any?
+      self.errors.clear
+      errors.add(:file, I18n.t('mass_upload.errors.missing_payment_details',
+        :link => Rails.application.routes.url_helpers.edit_user_registration_path(current_user) + '#profile_step',
+        missing_payment: "Bankkonto"))
+    elsif self.errors[:file].grep(/Seller paypal/).any?
+      self.errors.clear
+      errors.add(:file, I18n.t('mass_upload.errors.missing_payment_details',
+        :link => Rails.application.routes.url_helpers.edit_user_registration_path(current_user) + '#profile_step',
+        missing_payment: "PayPal-Konto"))
     end
   end
 

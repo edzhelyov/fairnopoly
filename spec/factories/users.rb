@@ -44,6 +44,17 @@ FactoryGirl.define do
 
     confirmed_at  Time.now
 
+    trait :bank_data do
+      bank_code {rand(99999999).to_s.center(8, rand(9).to_s)}
+      bank_account_number {rand(99999999).to_s.center(8, rand(9).to_s)}
+      bank_account_owner Faker::Name.name
+      bank_name Faker::Name.name
+    end
+
+    trait :paypal_data do
+      paypal_account Faker::Internet.email
+    end
+
     factory :admin_user do
       admin       true
     end
@@ -56,6 +67,18 @@ FactoryGirl.define do
     factory :private_user, class: 'PrivateUser' do
     end
     factory :legal_entity, class: 'LegalEntity' do
+    end
+    factory :private_user_bank_data, traits: [:bank_data], class: 'PrivateUser' do
+    end
+    factory :private_user_bank_paypal_data, traits: [:bank_data, :paypal_data], class: 'PrivateUser' do
+    end
+    factory :private_user_paypal_data, traits: [:paypal_data], class: 'PrivateUser' do
+    end
+    factory :legal_entity_bank_data, traits: [:bank_data], class: 'LegalEntity' do
+    end
+    factory :legal_entity_bank_paypal_data, traits: [:bank_data, :paypal_data], class: 'LegalEntity' do
+    end
+    factory :legal_entity_paypal_data, traits: [:paypal_data], class: 'LegalEntity' do
     end
   end
 
