@@ -33,7 +33,7 @@ describe MassUploadsController do
     before do
       setup_categories
       # bugbug Instance variables needed?
-      @user = FactoryGirl.create(:user)
+      @user = FactoryGirl.create(:user, :paypal_data, :bank_data)
       @attributes = create_attributes('/mass_upload_correct.csv', 'text/csv')
     end
 

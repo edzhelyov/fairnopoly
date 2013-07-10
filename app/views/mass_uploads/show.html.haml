@@ -1,3 +1,8 @@
 %ul
   - @articles.each do |article|
-    %li= article.title
+    = render "article_digest", :article => article
+
+%a= button_to ("Alle Artikel einstellen")
+- @articles.each do |article|
+  - article.state = "active"
+  - article.save

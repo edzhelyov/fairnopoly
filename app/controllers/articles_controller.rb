@@ -85,15 +85,27 @@ class ArticlesController < InheritedResources::Base
   end
 
   def update # Still needs Refactoring
+    # bugbug What am I doing?
     if state_params_present?
       change_state!
     else
       authorize resource
     end
     update! do |success, failure|
-      success.html { redirect_to resource }
-      failure.html { save_images
-                     render :edit }
+
+      if mass_upload_object?
+        render "mass_uploads/#{params[:secret_mass_uploads_number]}"
+        #  bugbug Do nothing! Don't redirect, don't render! How???
+      elsif secret_mass_uploads_number_present?
+        success.html { redirect_to mass_upload_path(params[:secret_mass_uploads_number]) }
+        # bugbug Do I even need this / how to change it?
+        failure.html { save_images
+                       render :edit }
+      else
+        success.html { redirect_to resource }
+        failure.html { save_images
+                       render :edit }
+      end
     end
   end
 
@@ -143,6 +155,14 @@ class ArticlesController < InheritedResources::Base
 
   def state_params_present?
     params[:activate] || params[:deactivate]
+  end
+
+  def mass_upload_object?
+    params[:mass_upload_object]
+  end
+
+  def secret_mass_uploads_number_present?
+    params[:secret_mass_uploads_number]
   end
 
 

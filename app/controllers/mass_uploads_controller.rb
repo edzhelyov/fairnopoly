@@ -8,7 +8,6 @@ class MassUploadsController < ApplicationController
 
   def show
     authorize Article.new, :create? # Needed because of pundit
-
     secret_mass_uploads_number = params[:id]
     @articles = Article.find_all_by_id(session[secret_mass_uploads_number])
   end
@@ -22,7 +21,6 @@ class MassUploadsController < ApplicationController
     # Needed to show the right error messages if no file is selected since in
     # this case .new doesn't lead to the validate_input method.
     @mass_upload.validate_input(params[:mass_upload])
-
     if @mass_upload.errors.full_messages.any?
       render :new
     else

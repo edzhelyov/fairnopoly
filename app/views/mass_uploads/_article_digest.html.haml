@@ -1,0 +1,13 @@
+%li
+  = t('formtastic.labels.article.title') + ": "
+  = article.title + ", "
+  = t('article.preview.fees_and_donations.title')
+  -
+  = t('article.preview.fees_and_donations.total',
+  fee: (article.fair ? "3% + 1%" : "6% + 1%")  )
+  = humanized_money_with_symbol(article.calculate_fees_and_donations)
+- if article.state == "preview"
+  %a= button_to t("article.labels.submit"), article_path(article.id, :activate => true, :secret_mass_uploads_number => params[:id], :mass_upload_object =>  true),
+  :class=>"Btn Btn--green Btn--greenSmall", :method => :put
+- else
+  .Btn.Btn--green.Btn--greenSmall Artikel bereits eingestellt
