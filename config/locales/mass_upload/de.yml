@@ -1,7 +1,12 @@
 de:
   mass_upload:
+    titles:
+      uploaded_articles: "Hochgeladene Artikel"
     labels:
       upload_article: "Artikel hochladen"
+      mass_activate_articles: "Alle Angebote einstellen. Beachte, das bei erfolgreichem Verkauf für jeden Artikel Gebühren entstehen."
+      article_activated: "Artikel bereits eingestellt"
+      all_articles_activated: "Alle Artikel sind bereits aktiviert"
     errors:
       missing_file: "Bitte wähle eine CSV-Datei aus"
       wrong_header: 'Bei der ersten Zeile muss es sich um einen korrekten Header handeln'

@@ -1,8 +1,9 @@
-%ul
-  - @articles.each do |article|
-    = render "article_digest", :article => article
+%h1
+  = t('mass_upload.titles.uploaded_articles')
 
-%a= button_to ("Alle Artikel einstellen")
-- @articles.each do |article|
-  - article.state = "active"
-  - article.save
+%ul
+  - @articles.each_with_index do |article, index|
+    = render "article_digest", :article => article, :index => index
+
+= render "mass_activation"
+

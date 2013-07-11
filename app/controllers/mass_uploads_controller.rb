@@ -39,4 +39,16 @@ class MassUploadsController < ApplicationController
       end
     end
   end
+
+  def update
+    authorize Article.new, :create? # Needed because of pundit
+
+    secret_mass_uploads_number = params[:id]
+    articles = Article.find_all_by_id(session[secret_mass_uploads_number])
+    articles.each do |article|
+      article.state = "active"
+      article.save
+    end
+    redirect_to user_path(current_user) + "#offers"
+  end
 end

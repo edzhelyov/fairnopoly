@@ -97,6 +97,10 @@ describe "mass-upload" do
           it "should redirect to the mass_uploads#show" do
             click_button I18n.t('mass_upload.labels.upload_article')
             should have_content('dummytitle1')
+            should have_selector('input.Btn.Btn--green.Btn--greenSmall')
+            should have_xpath("/html/body/div[4]/div/ul/a[1]/form/div/input
+              [contains(@value, '#{I18n.t('article.labels.submit')}')]
+              ")
           end
 
           it "should create new articles" do
@@ -104,6 +108,33 @@ describe "mass-upload" do
             visit new_mass_upload_path
             attach_file('mass_upload_file', 'spec/fixtures/mass_upload_correct.csv')
             expect { click_button I18n.t('mass_upload.labels.upload_article') }.to change(Article, :count).by(2)
+          end
+
+          describe "activate articles" do
+
+            before { click_button I18n.t('mass_upload.labels.upload_article') }
+
+            it "should disable a activate article button after it is clicked" do
+              # bugbug xpath is used because of identical buttons
+              page.find(:xpath, "/html/body/div[4]/div/ul/a[1]/form/div/input[2]").click
+              should have_selector('input.Btn.Btn--green.Btn--greenSmall')
+              should have_selector('a.Btn.Btn--red.Btn--redSmall')
+            end
+
+            it "should redirect to the user#offers when activating all articles" do
+              click_button I18n.t('mass_upload.labels.mass_activate_articles')
+              should_not have_selector('h1', text: I18n.t('mass_upload.titles.uploaded_articles'))
+              should have_selector('a', text: Article.last.title)
+            end
+
+            it "going back to mass_uploads#show it should show changed buttons" do
+              # bugbug To much/wrong way to get back to mass_uploads#show?
+              secret_mass_uploads_number = current_path.delete "/mass_uploads/"
+              click_button I18n.t('mass_upload.labels.mass_activate_articles')
+              visit mass_upload_path(secret_mass_uploads_number)
+              should_not have_selector('input.Btn.Btn--green.Btn--greenSmall')
+              should have_content I18n.t('mass_upload.labels.all_articles_activated')
+            end
           end
         end
 

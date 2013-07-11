@@ -68,18 +68,6 @@ FactoryGirl.define do
     end
     factory :legal_entity, class: 'LegalEntity' do
     end
-    factory :private_user_bank_data, traits: [:bank_data], class: 'PrivateUser' do
-    end
-    factory :private_user_bank_paypal_data, traits: [:bank_data, :paypal_data], class: 'PrivateUser' do
-    end
-    factory :private_user_paypal_data, traits: [:paypal_data], class: 'PrivateUser' do
-    end
-    factory :legal_entity_bank_data, traits: [:bank_data], class: 'LegalEntity' do
-    end
-    factory :legal_entity_bank_paypal_data, traits: [:bank_data, :paypal_data], class: 'LegalEntity' do
-    end
-    factory :legal_entity_paypal_data, traits: [:paypal_data], class: 'LegalEntity' do
-    end
   end
 
   #Only for attribute generation
