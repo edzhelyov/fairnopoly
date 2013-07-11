@@ -20,6 +20,7 @@
 class Category < ActiveRecord::Base
 
   attr_accessible :name, :parent, :desc, :parent_id
+  extend AccessibleForAdmins
 
   has_and_belongs_to_many :articles
 
