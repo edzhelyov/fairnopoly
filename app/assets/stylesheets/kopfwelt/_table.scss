@@ -1,9 +1,21 @@
 .User-table {
-	th:nth-child(2) {
-		display: none;
+	table, tbody, td, tr {
+		border-collapse:collapse;
 	}
-	td:nth-child(2) {
-		display: none;
+	th {
+		@include rem(font-size, $font-size-xs);
+		padding: 2em 2em .7em 0;
+		text-align: left;
+		border-bottom: lightgray solid 1px;
+		&:nth-child(2) {
+			display: none;
+		}
+	}
+	td {
+		border-bottom: solid .1em $beige;
+		&:nth-child(2) {
+			display: none;
+		}
 	}
 	a {
 		color: $blue;
@@ -11,6 +23,7 @@
 	.Btn {
 		width: 2em;
 		height: 2em;
+		margin-top: 0.6em;
 		overflow: hidden;
 		text-indent: 5em;
 	}
@@ -25,6 +38,7 @@
 	}
 	.Btn--blue {
 		@include sprite-background-position($icon-sprites, 'pencil--white', 8px, 9px);
+		margin-left: 1em;
 	}
 	.Btn--blue:after {
 		content: "";
@@ -40,10 +54,10 @@
 	}
 	@include at-breakpoint($layout-small) {
 		th:nth-child(2) {
-			display: table;
+			display: table-cell;
 		}
 		td:nth-child(2) {
-			display: table;
+			display: table-cell;
 		}
 	}
 }
