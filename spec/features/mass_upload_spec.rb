@@ -153,7 +153,7 @@ describe "mass-upload" do
             should have_selector('p.inline-errors',
               text: I18n.t('mass_upload.errors.wrong_article',
               # bugbug Alternativen dazu eine einmalige "Sondermessage" ins Internationalization file zu schreiben ('wrong_article_message')
-                message: I18n.t('mass_upload.errors.wrong_article_messages'),
+                message: I18n.t('mass_upload.errors.wrong_article_message'),
                 index: 2))
           end
 
