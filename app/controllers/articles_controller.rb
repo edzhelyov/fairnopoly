@@ -95,6 +95,7 @@ class ArticlesController < InheritedResources::Base
       # bugbug What am I doing?
      if secret_mass_uploads_number_present?
         success.html { redirect_to mass_upload_path(params[:secret_mass_uploads_number]) }
+        # flash[:notice] = I18n.t('article.notices.create')
         # bugbug Do I even need this / how to change it?
         failure.html { save_images
                        render :edit }

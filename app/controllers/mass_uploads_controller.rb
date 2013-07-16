@@ -46,8 +46,11 @@ class MassUploadsController < ApplicationController
     secret_mass_uploads_number = params[:id]
     articles = Article.find_all_by_id(session[secret_mass_uploads_number])
     articles.each do |article|
+      # bugbug Is this ok or should one try to use something like the change_state! method?
       article.state = "active"
       article.save
+      # bugbug Does this even make sense if it link to an anchor and the notice at the top isn't visible?
+      flash[:notice] = I18n.t('article.notices.mass_upload_create')
     end
     redirect_to user_path(current_user) + "#offers"
   end

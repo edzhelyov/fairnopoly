@@ -22,7 +22,6 @@
   = semantic_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f|
     / In case we get the 'invalid token error again'
     = f.semantic_errors
-    = f.semantic_errors :base
     = f.semantic_errors :reset_password_token
     = f.hidden_field :reset_password_token
     = f.inputs do

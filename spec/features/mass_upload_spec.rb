@@ -1,7 +1,3 @@
-# encoding: utf-8
-# bugbug Because of hard coded error message for signed-in users with wrong
-# wrong articles should show correct error message
-
 require 'spec_helper'
 
 include Warden::Test::Helpers
@@ -31,7 +27,6 @@ describe "mass-upload" do
     end
 
     it "should not have a csv upload link" do
-      # bugbug should this be put into an internationalization file?
       should_not have_link(I18n.t('mass_upload.labels.upload_article_via_csv'), href: new_mass_upload_path)
     end
   end
@@ -45,7 +40,6 @@ describe "mass-upload" do
     end
 
     it "should have a csv upload link" do
-      # bugbug should this be put into an internationalization file?
       should have_link(I18n.t('mass_upload.labels.upload_article_via_csv'), href: new_mass_upload_path)
     end
 
@@ -63,27 +57,27 @@ describe "mass-upload" do
 
         describe "any payment data" do
           it "should show the correct error message" do
-            # bugbug more advanced tests (have_selector, have_link) seem not to work
-            # because of the weird i18n 'missing_bank_details'
-            should have_content('Bitte ergänze die Zahlungs- und Kontoinformationen (PayPal- und Bankkonto) in Deinem Profil')
+            page.html.should include(I18n.t('mass_upload.errors.missing_payment_details',
+              missing_payment: I18n.t('formtastic.labels.user.paypal_and_bank_account'),
+              link: edit_user_registration_path(legal_entity_user) + '#profile_step'))
           end
         end
 
         describe "paypal data" do
           let (:legal_entity_user) { FactoryGirl.create :legal_entity, :bank_data }
           it "should show the correct error message" do
-            # bugbug more advanced tests (have_selector, have_link) seem not to work
-            # because of the weird i18n 'missing_bank_details'
-            should have_content('Bitte ergänze die Zahlungs- und Kontoinformationen (PayPal-Konto) in Deinem Profil')
+            page.html.should include(I18n.t('mass_upload.errors.missing_payment_details',
+              missing_payment: I18n.t('formtastic.labels.user.paypal_account'),
+              link: edit_user_registration_path(legal_entity_user) + '#profile_step'))
           end
         end
 
         describe "bank data" do
           let (:legal_entity_user) { FactoryGirl.create :legal_entity, :paypal_data }
           it "should show the correct error message" do
-            # bugbug more advanced tests (have_selector, have_link) seem not to work
-            # because of the weird i18n 'missing_bank_details'
-            should have_content('Bitte ergänze die Zahlungs- und Kontoinformationen (Bankkonto) in Deinem Profil')
+            page.html.should include(I18n.t('mass_upload.errors.missing_payment_details',
+              missing_payment: I18n.t('formtastic.labels.user.bank_account'),
+              link: edit_user_registration_path(legal_entity_user) + '#profile_step'))
           end
         end
       end
@@ -156,7 +150,11 @@ describe "mass-upload" do
 
           it "should show correct error messages" do
             click_button I18n.t('mass_upload.labels.upload_article')
-            should have_selector('p.inline-errors', text: 'Content muss ausgefüllt werden (Artikelzeile 2)')
+            should have_selector('p.inline-errors',
+              text: I18n.t('mass_upload.errors.wrong_article',
+              # bugbug Alternativen dazu eine einmalige "Sondermessage" ins Internationalization file zu schreiben ('wrong_article_message')
+                message: I18n.t('mass_upload.errors.wrong_article_messages'),
+                index: 2))
           end
 
           it "should not create new articles" do

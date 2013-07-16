@@ -46,6 +46,8 @@ class MassUpload
     end
 
     unless csv_format?(file)
+      # errors.add(:base, I18n.t('mass_upload.errors.missing_file'))
+
       errors.add(:file, I18n.t('mass_upload.errors.missing_file'))
       return false
     end
@@ -105,17 +107,18 @@ class MassUpload
       errors.add(:file, I18n.t('mass_upload.errors.missing_payment_details',
         # bugbug Warum öffnet der Ankerlink '#profile_step' die Zahlungsinformationen und nicht '#payment_information_step'
         :link => Rails.application.routes.url_helpers.edit_user_registration_path(current_user) + '#profile_step',
-        missing_payment: "PayPal- und Bankkonto"))
+        missing_payment: I18n.t('formtastic.labels.user.paypal_and_bank_account')))
     elsif self.errors[:file].grep(/Seller bank/).any?
       self.errors.clear
       errors.add(:file, I18n.t('mass_upload.errors.missing_payment_details',
         :link => Rails.application.routes.url_helpers.edit_user_registration_path(current_user) + '#profile_step',
-        missing_payment: "Bankkonto"))
+        # bugbug Where and why to put the translations (konkret: formtastic, mass_upload oder ganz was anderes?)
+        missing_payment: I18n.t('formtastic.labels.user.bank_account')))
     elsif self.errors[:file].grep(/Seller paypal/).any?
       self.errors.clear
       errors.add(:file, I18n.t('mass_upload.errors.missing_payment_details',
         :link => Rails.application.routes.url_helpers.edit_user_registration_path(current_user) + '#profile_step',
-        missing_payment: "PayPal-Konto"))
+        missing_payment: I18n.t('formtastic.labels.user.paypal_account')))
     end
   end
 

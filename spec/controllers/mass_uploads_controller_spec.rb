@@ -28,38 +28,31 @@ describe MassUploadsController do
     end
   end
 
-  describe "POST 'create'" do
+  describe "POST 'create' for signed-in users" do
+    let(:user) { FactoryGirl.create(:legal_entity, :paypal_data, :bank_data) }
+    let(:attributes) { create_attributes('/mass_upload_correct.csv', 'text/csv') }
 
     before do
       setup_categories
-      # bugbug Instance variables needed?
-      @user = FactoryGirl.create(:legal_entity, :paypal_data, :bank_data)
-      @attributes = create_attributes('/mass_upload_correct.csv', 'text/csv')
+      sign_in user
+      post :create, mass_upload: attributes
     end
 
-    describe "for signed-in users" do
 
-      before :each do
-        sign_in @user
-        post :create, mass_upload: @attributes
-      end
+    it "should create a mass-upload object" do
+      secret_mass_uploads_number = response.redirect_url.dup
+      secret_mass_uploads_number.slice!("http://test.host/mass_uploads/")
+      response.should redirect_to mass_upload_path(secret_mass_uploads_number)
+    end
 
-      it "should create a mass-upload object" do
-        # post :create, mass_upload: @attributes
+    describe "PUT 'update'" do
+      # bugbug Is it ok to place "PUT 'update'" inside the POST create describe block?
+      it "should description" do
+        # bugbug is there better way to get the secret... here?
         secret_mass_uploads_number = response.redirect_url.dup
         secret_mass_uploads_number.slice!("http://test.host/mass_uploads/")
-        response.should redirect_to mass_upload_path(secret_mass_uploads_number)
-      end
-
-      describe "PUT 'update'" do
-        #bugbug Is it ok to place it inside the POST create describe block?
-        it "should description" do
-          #bugbug is there better way to get the secret... here?
-          secret_mass_uploads_number = response.redirect_url.dup
-          secret_mass_uploads_number.slice!("http://test.host/mass_uploads/")
-          post :update, :id => secret_mass_uploads_number
-          response.should redirect_to user_path(@user) + "#offers"
-        end
+        post :update, :id => secret_mass_uploads_number
+        response.should redirect_to user_path(user) + "#offers"
       end
     end
   end

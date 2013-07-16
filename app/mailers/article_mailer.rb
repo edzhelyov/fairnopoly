@@ -18,7 +18,6 @@
 # along with Farinopoly.  If not, see <http://www.gnu.org/licenses/>.
 #
 class ArticleMailer < ActionMailer::Base
-  debugger
   default from: $email_addresses['ArticleMailer']['default_from']
 
   def report_article(article,user,text)
