@@ -3,6 +3,7 @@ de:
     titles:
       uploaded_articles: "Hochgeladene Artikel"
     labels:
+      upload_article_via_csv: "Artikel per CSV importieren"
       upload_article: "Artikel hochladen"
       mass_activate_articles: "Alle Angebote einstellen. Beachte, das bei erfolgreichem Verkauf für jeden Artikel Gebühren entstehen."
       article_activated: "Artikel bereits eingestellt"

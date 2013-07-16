@@ -2,8 +2,8 @@
   = t('mass_upload.titles.uploaded_articles')
 
 %ul
-  - @articles.each_with_index do |article, index|
-    = render "article_digest", :article => article, :index => index
+  - @articles.each do |article|
+    = render "article_digest", :article => article
 
 = render "mass_activation"
 

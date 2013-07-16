@@ -32,7 +32,7 @@ describe "mass-upload" do
 
     it "should not have a csv upload link" do
       # bugbug should this be put into an internationalization file?
-      should_not have_link('Artikel per CSV importieren', href: new_mass_upload_path)
+      should_not have_link(I18n.t('mass_upload.labels.upload_article_via_csv'), href: new_mass_upload_path)
     end
   end
 
@@ -46,13 +46,13 @@ describe "mass-upload" do
 
     it "should have a csv upload link" do
       # bugbug should this be put into an internationalization file?
-      should have_link('Artikel per CSV importieren', href: new_mass_upload_path)
+      should have_link(I18n.t('mass_upload.labels.upload_article_via_csv'), href: new_mass_upload_path)
     end
 
     context "uploading" do
       before do
         setup_categories
-        click_link 'Artikel per CSV importieren'
+        click_link I18n.t('mass_upload.labels.upload_article_via_csv')
       end
 
       context "with missing payment data -" do
@@ -147,7 +147,7 @@ describe "mass-upload" do
           end
 
           it "should not create new articles" do
-            expect { click_button "Artikel hochladen" }.not_to change(Article, :count)
+            expect { click_button I18n.t('mass_upload.labels.upload_article') }.not_to change(Article, :count)
           end
         end
 

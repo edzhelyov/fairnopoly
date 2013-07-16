@@ -19,6 +19,6 @@
 
 %p
   - if current_user.is_a?(LegalEntity)
-    = link_to 'Artikel per CSV importieren', new_mass_upload_path
+    = link_to t('mass_upload.labels.upload_article_via_csv'), new_mass_upload_path
 
 = render 'form'
