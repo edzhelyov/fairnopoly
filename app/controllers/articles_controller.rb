@@ -92,7 +92,7 @@ class ArticlesController < InheritedResources::Base
       authorize resource
     end
     update! do |success, failure|
-      # bugbug What am I doing?
+      # bugbug Put all in the mass-upload controller als sonderfall der massenaktivierung
      if secret_mass_uploads_number_present?
         success.html { redirect_to mass_upload_path(params[:secret_mass_uploads_number]) }
         # flash[:notice] = I18n.t('article.notices.create')

@@ -40,14 +40,14 @@ class MassUploadsController < ApplicationController
     end
   end
 
+  # bugbug vorlaeufige updatemthode
   def update
     authorize Article.new, :create? # Needed because of pundit
-
     secret_mass_uploads_number = params[:id]
     articles = Article.find_all_by_id(session[secret_mass_uploads_number])
     articles.each do |article|
       # bugbug Is this ok or should one try to use something like the change_state! method?
-      article.state = "active"
+      article.activate
       article.save
       # bugbug Does this even make sense if it link to an anchor and the notice at the top isn't visible?
       flash[:notice] = I18n.t('article.notices.mass_upload_create')

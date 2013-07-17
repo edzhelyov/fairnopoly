@@ -77,7 +77,7 @@ class MassUpload
   end
 
   def correct_header?(file)
-    true
+    # bugbug header_row aus YAML file erstellen (siehe settings gem -> pioner des tages)
     header_row = ["Artikelbezeichnung", "Artikelbeschreibung", "Kategorie 1",
                   "Kategorie 2", "Grundpreis in Cent", "Mengeneinheit",
                   "Artikelzustand", "Zustandsbeschreibung", "Preis in Cent",
@@ -106,23 +106,26 @@ class MassUpload
       self.errors.clear
       errors.add(:file, I18n.t('mass_upload.errors.missing_payment_details',
         # bugbug Warum öffnet der Ankerlink '#profile_step' die Zahlungsinformationen und nicht '#payment_information_step'
-        :link => Rails.application.routes.url_helpers.edit_user_registration_path(current_user) + '#profile_step',
+        :link => Rails.application.routes.url_helpers.edit_user_registration_path(current_user) + '#payment_information_step',
         missing_payment: I18n.t('formtastic.labels.user.paypal_and_bank_account')))
     elsif self.errors[:file].grep(/Seller bank/).any?
       self.errors.clear
       errors.add(:file, I18n.t('mass_upload.errors.missing_payment_details',
-        :link => Rails.application.routes.url_helpers.edit_user_registration_path(current_user) + '#profile_step',
+        :link => Rails.application.routes.url_helpers.edit_user_registration_path(current_user) + '#payment_information_step',
         # bugbug Where and why to put the translations (konkret: formtastic, mass_upload oder ganz was anderes?)
         missing_payment: I18n.t('formtastic.labels.user.bank_account')))
     elsif self.errors[:file].grep(/Seller paypal/).any?
       self.errors.clear
       errors.add(:file, I18n.t('mass_upload.errors.missing_payment_details',
-        :link => Rails.application.routes.url_helpers.edit_user_registration_path(current_user) + '#profile_step',
+        :link => Rails.application.routes.url_helpers.edit_user_registration_path(current_user) + '#payment_information_step',
         missing_payment: I18n.t('formtastic.labels.user.paypal_account')))
     end
   end
 
   def build_raw_articles(user, file)
+    # bugbug This is wrong... Use only I18n (new ones need to be created)? Put it somewhere else completely?
+    # Make it private?
+    # Ins settings gem und damit automatisch in rails initializer (wichtig, dass im initializer die uebersetzung stattfindet)
     header_translation = { "Artikelbezeichnung" => "title",
                            "Artikelbeschreibung" => "content",
                            "Artikelzustand" => "condition",

@@ -3,7 +3,7 @@
 $(function() {
 	target = 0;
 	if(window.location.hash){
-		target = $(window.location.hash).index()
+		target = $(window.location.hash).index()-1
 	}
 	$(".Accordion").accordion({
 		header: "a.Accordion-header",

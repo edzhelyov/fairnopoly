@@ -28,7 +28,7 @@ describe MassUploadsController do
     end
   end
 
-  describe "POST 'create' for signed-in users" do
+  describe "mass-upload creation" do
     let(:user) { FactoryGirl.create(:legal_entity, :paypal_data, :bank_data) }
     let(:attributes) { create_attributes('/mass_upload_correct.csv', 'text/csv') }
 
@@ -38,17 +38,16 @@ describe MassUploadsController do
       post :create, mass_upload: attributes
     end
 
-
-    it "should create a mass-upload object" do
-      secret_mass_uploads_number = response.redirect_url.dup
-      secret_mass_uploads_number.slice!("http://test.host/mass_uploads/")
-      response.should redirect_to mass_upload_path(secret_mass_uploads_number)
+    describe "POST 'create'" do
+      it "should create a mass-upload object" do
+        secret_mass_uploads_number = response.redirect_url.dup
+        secret_mass_uploads_number.slice!("http://test.host/mass_uploads/")
+        response.should redirect_to mass_upload_path(secret_mass_uploads_number)
+      end
     end
 
     describe "PUT 'update'" do
-      # bugbug Is it ok to place "PUT 'update'" inside the POST create describe block?
       it "should description" do
-        # bugbug is there better way to get the secret... here?
         secret_mass_uploads_number = response.redirect_url.dup
         secret_mass_uploads_number.slice!("http://test.host/mass_uploads/")
         post :update, :id => secret_mass_uploads_number
