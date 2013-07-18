@@ -86,6 +86,7 @@ class ArticlesController < InheritedResources::Base
 
   def update # Still needs Refactoring
 
+    debugger
     if state_params_present?
       change_state!
     else
