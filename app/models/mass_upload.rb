@@ -19,6 +19,14 @@
 #
 class MassUpload
 
+
+  # bugbug Check if really needed
+  # @@headers = Hash.new
+
+  # def self.headers(headers)
+  #   @@headers = headers
+  # end
+
   # Required for Active Model Conversion which is required by Formtastic
   include ActiveModel::Conversion
 
